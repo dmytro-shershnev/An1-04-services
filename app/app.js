@@ -4,8 +4,10 @@
     // app
     angular.module("app", ["services"])
         .controller("Simple", Simple)
+        .constant("appName", "Simple Application")
         .config(appConfig)
-        .config(decoration);
+        .config(decoration)
+        .config(decorationLog);
 
     function appConfig(userGreetingServiceProvider, officialGreeting) {
         // console.log(userGreetingServiceProvider);
@@ -16,7 +18,12 @@
         $provide.decorator("userService", userServiceLog);
     }
 
-    function Simple(localStorageService, rankService) {
+    function decorationLog($provide) {
+        $provide.decorator("$log", logService);
+    }
+
+    //function Simple(userService, personService, userGreetingService, userName) {
+    function Simple(localStorageService, rankService, rankService2, rankService3, $log, generatorService) {
         console.log("controller");
         // console.log(localStorageService);
         localStorageService.setStorageItem("TestItem", "Test Value");
@@ -24,6 +31,17 @@
         localStorageService.deleteStorageItem("TestItem");
 
         console.log(`Show rank: ${rankService.showRank(350)}`);
+        console.log(`Show rank2: ${rankService2.showRank(550)}`);
+        console.log(`Show rank3: ${rankService3.showRank(750)}`);
+
+        $log.log("Log message.");
+        $log.info("Info message.");
+        $log.warn("Warn message.");
+        $log.error("Error message.");
+        $log.debug("Debug message.");
+        $log.myLog("My log message.");
+
+        console.log(generatorService.generateString(10));
         // console.log(userService);
         // userService.setCurrentUser("Vitaliy");
         // console.log(userService.getCurrentUser());

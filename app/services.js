@@ -11,7 +11,28 @@
         .value("userName", "Vitaliy")
         .constant("defaultRankSymbol", "*")
         .provider("rankService", rankService)
-        ;
+        .factory("rankService2", rankService2)
+        .service("rankService3", RankService3)
+        .factory("generatorService", generatorService);
+
+    function generatorService() {
+        return {
+            generateString
+        };
+
+        function generateString(count) {
+            let chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            let result = "";
+            
+            for (let i = 0; i < count; i++) {
+                let randomPos = Math.floor(Math.random() * chars.length);
+                
+                result += chars.substring(randomPos,randomPos + 1);
+            }
+
+            return result;
+        }
+    }
 
     function rankService(defaultRankSymbol) {
         let rankSymbol = defaultRankSymbol;
@@ -42,6 +63,32 @@
 
                 return result;
             }
+        }
+    }
+
+    function rankService2(defaultRankSymbol) {
+        let rankSymbol = defaultRankSymbol;
+
+        return {
+            showRank
+        };
+
+        function showRank(count) {
+            let result = rankSymbol;
+
+            if (count >= 0 && count < 100) {
+                result = rankSymbol.repeat(1);
+            } else if (count >= 100 && count < 200) {
+                result = rankSymbol.repeat(2);
+            } else if (count >= 200 && count < 500) {
+                result = rankSymbol.repeat(3);
+            } else if (count >= 500 && count < 1000) {
+                result = rankSymbol.repeat(4);
+            } else if (count >= 1000) {
+                result = rankSymbol.repeat(5);
+            }
+
+            return result;
         }
     }
 
